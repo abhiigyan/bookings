@@ -18,7 +18,7 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 // main is the main function
-func main() {
+func main(){
 
 	app.InProduction = false
 
