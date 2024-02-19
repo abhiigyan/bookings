@@ -4,7 +4,9 @@ import (
 	"bookingapp/pkg/config"
 	"bookingapp/pkg/models"
 	"bookingapp/pkg/render"
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -81,4 +83,25 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 	end := r.Form.Get("end")
 
 	w.Write([]byte(fmt.Sprintf("Start date is %s and end date is %s", start, end)))
+}
+
+type jsonresponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
+// AvailabilityJSON handles request for availability and send json responses
+func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
+	resp := jsonresponse{
+		OK:      true,
+		Message: "Available!",
+	}
+	out, err := json.MarshalIndent(resp, "", " 	")
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(string(out))
+	w.Header().Set("Content-type", "application/json")
+	w.Write(out)
+
 }
