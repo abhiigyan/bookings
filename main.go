@@ -1,9 +1,9 @@
 package main
 
 import (
-	"bookingapp/pkg/config"
-	"bookingapp/pkg/handlers"
-	"bookingapp/pkg/render"
+	"bookingapp/internal/config"
+	"bookingapp/internal/handlers"
+	"bookingapp/internal/render"
 	"fmt"
 	"log"
 	"net/http"
@@ -18,7 +18,7 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 // main is the main function
-func main(){
+func main() {
 
 	app.InProduction = false
 

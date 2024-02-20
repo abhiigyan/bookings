@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"bookingapp/pkg/config"
-	"bookingapp/pkg/models"
-	"bookingapp/pkg/render"
+	"bookingapp/internal/config"
+	"bookingapp/internal/models"
+	"bookingapp/internal/render"
 	"encoding/json"
 	"fmt"
 	"log"
