@@ -3,7 +3,9 @@ package main
 import (
 	"bookingapp/internal/config"
 	"bookingapp/internal/handlers"
+	"bookingapp/internal/models"
 	"bookingapp/internal/render"
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -19,14 +21,19 @@ var session *scs.SessionManager
 
 // main is the main function
 func main() {
+	// what am I going to put in the session
+	gob.Register(models.Reservation{})
 
+	// change this to true when in production
 	app.InProduction = false
 
+	// set up the session
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
 	session.Cookie.SameSite = http.SameSiteLaxMode
 	session.Cookie.Secure = app.InProduction
+
 	app.Session = session
 
 	tc, err := render.CreateTemplateCache()
@@ -42,16 +49,15 @@ func main() {
 
 	render.NewTemplates(&app)
 
-	// http.HandleFunc("/", handlers.Repo.Home)
-	// http.HandleFunc("/about", handlers.Repo.About)
-
 	fmt.Println(fmt.Sprintf("Staring application on port %s", portNumber))
 
-	//_ = http.ListenAndServe(portNumber, nil)
-	srv := http.Server{
+	srv := &http.Server{
 		Addr:    portNumber,
 		Handler: routes(&app),
 	}
+
 	err = srv.ListenAndServe()
-	log.Fatal(err)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
