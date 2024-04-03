@@ -8,7 +8,6 @@ import (
 
 	"github.com/asaskevich/govalidator"
 )
-
 // Form creates a custom form struct and embeds a url.Values object
 type Form struct {
 	url.Values
